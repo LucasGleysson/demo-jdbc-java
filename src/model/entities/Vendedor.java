@@ -1,8 +1,11 @@
 package model.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Vendedor {
+public class Vendedor implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String nome;
@@ -19,6 +22,9 @@ public class Vendedor {
 		this.nascimento = nascimento;
 		SalarioBase = salarioBase;
 		this.departamento = departamento;
+	}
+
+	public Vendedor() {
 	}
 
 	public Integer getId() {
