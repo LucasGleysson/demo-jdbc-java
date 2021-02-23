@@ -1,15 +1,13 @@
 package aplication;
 
-import java.sql.Connection;
-
-import dataBase.DataBase;
+import model.entities.Departamento;
 
 public class MainDaoJDBC {
 
 	public static void main(String[] args) {
 		
-		Connection connection = DataBase.getConnection();
-		DataBase.closeConnection();
+		Departamento departamento = new Departamento(1, "Livros");
+		System.out.println(departamento);
 
 	}
 
