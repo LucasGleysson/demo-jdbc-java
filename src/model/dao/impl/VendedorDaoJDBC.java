@@ -50,17 +50,8 @@ public class VendedorDaoJDBC implements VendedorDao{
 			prepStatment.setInt(1, id);
 			resultSet = prepStatment.executeQuery();
 			if(resultSet.next()) {
-				Departamento dep = new Departamento();
-				dep.setId(resultSet.getInt("DepartmentId"));
-				dep.setNome(resultSet.getString("DepName"));
-				
-				Vendedor vend = new Vendedor();
-				vend.setId(resultSet.getInt("Id"));
-				vend.setNome(resultSet.getString("Name"));
-				vend.setEmail(resultSet.getString("Email"));
-				vend.setNascimento(resultSet.getDate("BirthDate"));
-				vend.setSalarioBase(resultSet.getDouble("BaseSalary"));
-				vend.setDepartamento(dep);
+				Departamento dep = instanciacaoDepartamento(resultSet);
+				Vendedor vend = instanciacaoVendedor(resultSet, dep);
 				
 				return vend;
 			}
@@ -77,5 +68,26 @@ public class VendedorDaoJDBC implements VendedorDao{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
+	
+	
+	private Vendedor instanciacaoVendedor(ResultSet resultSet, Departamento dep) throws SQLException {
+		Vendedor vend = new Vendedor();
+		vend.setId(resultSet.getInt("Id"));
+		vend.setNome(resultSet.getString("Name"));
+		vend.setEmail(resultSet.getString("Email"));
+		vend.setNascimento(resultSet.getDate("BirthDate"));
+		vend.setSalarioBase(resultSet.getDouble("BaseSalary"));
+		vend.setDepartamento(dep);
+		return vend;
+	}
+	
+	private Departamento instanciacaoDepartamento(ResultSet resultSet) throws SQLException {
+		Departamento dep = new Departamento();
+		dep.setId(resultSet.getInt("DepartmentId"));
+		dep.setNome(resultSet.getString("DepName"));
+		return dep;
+		
+	}
 }
