@@ -22,6 +22,12 @@ public class MainDaoJDBC {
 		for(Vendedor obj : lista) {
 			System.out.println(obj);
 		}
+		
+		System.out.println("====TESTE 3 BuscarTodos ====");
+		lista = vendedorDao.buscarTodos();
+		for(Vendedor obj : lista) {
+			System.out.println(obj);
+		}
 	}
 
 }

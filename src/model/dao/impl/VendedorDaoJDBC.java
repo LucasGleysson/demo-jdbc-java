@@ -73,8 +73,32 @@ public class VendedorDaoJDBC implements VendedorDao{
 
 	@Override
 	public List<Vendedor> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement prepStatment = null;
+		ResultSet resultSet = null;
+		try {
+			prepStatment = connection.prepareStatement("SELECT seller.*,department.Name as DepName "
+					+ "FROM seller INNER JOIN department "
+					+ "ON seller.DepartmentId = department.Id "
+					+ "ORDER BY Name");
+			
+			resultSet = prepStatment.executeQuery();
+			
+			List<Vendedor> lista = new ArrayList<>();
+			while(resultSet.next()) {
+				
+				Departamento dep = instanciacaoDepartamento(resultSet);
+				Vendedor vend = instanciacaoVendedor(resultSet, dep);
+				lista.add(vend);
+			}
+			return lista;
+		}
+		catch (SQLException erro) {
+			throw new DataBaseException(erro.getMessage());
+		}
+		finally {
+			DataBase.closeResultSet(resultSet);
+			DataBase.closeStatement(prepStatment);
+		}
 	}
 	
 
