@@ -34,6 +34,12 @@ public class MainDaoJDBC {
 		Vendedor novoVendedor = new Vendedor(null, "Greg", "greg@gmail.com", new Date(), 4000.0, dep);
 		vendedorDao.inserir(novoVendedor);
 		System.out.println("Inserir! Novo ID: " + novoVendedor.getId());
+		
+		System.out.println("====TESTE 5 AtualizarVendedor ====");
+		vendedor = vendedorDao.buscarPorId(1);
+		vendedor.setNome("Marta Birth");
+		vendedorDao.atualizar(vendedor);
+		System.out.println("Atualizado");
 	}
 
 }
