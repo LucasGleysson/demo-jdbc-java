@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,13 +25,45 @@ public class VendedorDaoJDBC implements VendedorDao{
 	}
 
 	@Override
-	public void inserir(Vendedor departamento) {
-		// TODO Auto-generated method stub
+	public void inserir(Vendedor vendedor) {
+		PreparedStatement prepStatment = null;
+		ResultSet resultSet = null;
+		try {
+			prepStatment = connection.prepareStatement("INSERT INTO seller "
+					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+					+ "VALUES "
+					+ "(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			
+			prepStatment.setString(1, vendedor.getNome());
+			prepStatment.setString(2, vendedor.getEmail());
+			prepStatment.setDate(3, new java.sql.Date(vendedor.getNascimento().getTime()));
+			prepStatment.setDouble(4, vendedor.getSalarioBase());
+			prepStatment.setInt(5, vendedor.getDepartamento().getId());
+			
+			int linhasAfetadas = prepStatment.executeUpdate();
+			if(linhasAfetadas > 0) {
+				resultSet = prepStatment.getGeneratedKeys();
+				if(resultSet.next()) {
+					int id = resultSet.getInt(1);
+					vendedor.setId(id);
+				}
+			}
+			else {
+				throw new DataBaseException("Erro inesperado! Nenhuma linha foi afetada");
+			}
+		}
+		catch (SQLException erro) {
+			throw new DataBaseException(erro.getMessage());
+		}
+		finally {
+			DataBase.closeResultSet(resultSet);
+			DataBase.closeStatement(prepStatment);
+		}
 		
 	}
 
 	@Override
-	public void atualizar(Vendedor departamento) {
+	public void atualizar(Vendedor vendedor) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -82,11 +115,18 @@ public class VendedorDaoJDBC implements VendedorDao{
 					+ "ORDER BY Name");
 			
 			resultSet = prepStatment.executeQuery();
-			
+
 			List<Vendedor> lista = new ArrayList<>();
+			Map<Integer, Departamento> map = new HashMap<>();
 			while(resultSet.next()) {
 				
-				Departamento dep = instanciacaoDepartamento(resultSet);
+				Departamento dep = map.get(resultSet.getInt("DepartmentId"));
+				
+				if(dep == null) {
+					dep = instanciacaoDepartamento(resultSet);
+					map.put(resultSet.getInt("DepartmentId"), dep);
+				}
+				
 				Vendedor vend = instanciacaoVendedor(resultSet, dep);
 				lista.add(vend);
 			}
