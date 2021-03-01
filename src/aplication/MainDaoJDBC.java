@@ -40,6 +40,9 @@ public class MainDaoJDBC {
 		vendedor.setNome("Marta Birth");
 		vendedorDao.atualizar(vendedor);
 		System.out.println("Atualizado");
+		
+		System.out.println("====TESTE 6 DeletarVendedor ====");
+		vendedorDao.deletarPorId(13);
 	}
 
 }

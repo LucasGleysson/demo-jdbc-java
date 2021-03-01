@@ -93,7 +93,17 @@ public class VendedorDaoJDBC implements VendedorDao{
 
 	@Override
 	public void deletarPorId(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		try {
+			st = connection.prepareStatement("DELETE FROM seller "
+					+ "WHERE Id = ?");
+			
+			st.setInt(1, id);
+			st.executeUpdate();
+		}
+		catch(SQLException erro) {
+			throw new DataBaseException(erro.getMessage());
+		}
 		
 	}
 
