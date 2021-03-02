@@ -10,7 +10,7 @@ public class MainDaoJDBC2 {
 		
 		DepartamentoDao departamentoDao = DaoFabrica.criarDepartamento();
 		
-		System.out.println("====TESTE 4 InserirVendedor ====");
+		System.out.println("====TESTE 4 InserirDepartamento ====");
 		Departamento novoDepartamento = new Departamento(null, "Finaceiro");
 		departamentoDao.inserir(novoDepartamento);
 		System.out.println("Inserir! Novo ID: " + novoDepartamento.getId());

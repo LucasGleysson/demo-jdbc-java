@@ -48,6 +48,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 			throw new DataBaseException(erro.getMessage());
 		}
 		
+		
 	}
 
 	@Override
