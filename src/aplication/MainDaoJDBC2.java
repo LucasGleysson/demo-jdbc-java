@@ -10,9 +10,23 @@ public class MainDaoJDBC2 {
 		
 		DepartamentoDao departamentoDao = DaoFabrica.criarDepartamento();
 		
-		System.out.println("====TESTE 4 InserirDepartamento ====");
+		System.out.println("====TESTE 1 InserirDepartamento ====");
 		Departamento novoDepartamento = new Departamento(null, "Finaceiro");
-		departamentoDao.inserir(novoDepartamento);
+		//departamentoDao.inserir(novoDepartamento);
 		System.out.println("Inserir! Novo ID: " + novoDepartamento.getId());
+		
+		System.out.println("====TESTE 2 Buscar por Id departamento ====");
+		Departamento departamento = departamentoDao.buscarPorId(2);
+		System.out.println(departamento);
+		
+		System.out.println("====TESTE 3 Atualizar departamento ====");
+		departamento = departamentoDao.buscarPorId(2);
+		departamento.setNome("Livros");
+		departamentoDao.atualizar(departamento);
+		System.out.println("Atualizado!");
+		
+		System.out.println("====TESTE 4 Deletar departamento ====");
+		departamentoDao.deletarPorId(8);
+		System.out.println("Deletado!");
 	}
 }

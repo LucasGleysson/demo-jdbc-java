@@ -53,20 +53,69 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 
 	@Override
 	public void atualizar(Departamento departamento) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = connection.prepareStatement("UPDATE department "
+					+ "SET Name = ?"
+					+ "WHERE Id = ?", Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, departamento.getNome());
+			st.setInt(2, departamento.getId());
+			st.executeUpdate();
+		}
+		catch(SQLException erro){
+			throw new DataBaseException(erro.getMessage());
+		}
+		finally{
+			DataBase.closeResultSet(rs);
+			DataBase.closeStatement(st);
+		}
 		
 	}
 
 	@Override
 	public void deletarPorId(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = connection.prepareStatement("DELETE FROM department "
+											+ "WHERE Id = ?");
+			
+			st.setInt(1, id);
+			st.executeUpdate();
+		}
+		catch(SQLException erro){
+			throw new DataBaseException(erro.getMessage());
+		}
+		finally{
+			DataBase.closeResultSet(rs);
+			DataBase.closeStatement(st);
+		}
 		
 	}
 
 	@Override
 	public Departamento buscarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = connection.prepareStatement("SELECT * FROM department "
+											+ "WHERE department.Id = ?");
+			
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if(rs.next()) {
+				Departamento departamento = new Departamento();
+				departamento.setId(rs.getInt("Id"));
+				departamento.setNome(rs.getString("Name"));
+				return departamento;
+			}
+			return null;
+		}
+		catch(SQLException erro) {
+			throw new DataBaseException(erro.getMessage());
+		}
 	}
 
 	@Override
