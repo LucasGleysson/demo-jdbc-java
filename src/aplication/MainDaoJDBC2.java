@@ -1,5 +1,7 @@
 package aplication;
 
+import java.util.List;
+
 import model.dao.DaoFabrica;
 import model.dao.DepartamentoDao;
 import model.entities.Departamento;
@@ -28,5 +30,11 @@ public class MainDaoJDBC2 {
 		System.out.println("====TESTE 4 Deletar departamento ====");
 		departamentoDao.deletarPorId(8);
 		System.out.println("Deletado!");
+		
+		System.out.println("====TESTE 5 Buscar todos departamento ====");
+		List<Departamento> todosDepartamentos = departamentoDao.buscarTodos();
+		for(Departamento departamentos : todosDepartamentos) {
+			System.out.println(departamentos);
+		}
 	}
 }
